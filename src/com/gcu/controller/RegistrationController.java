@@ -2,8 +2,10 @@ package com.gcu.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -16,6 +18,11 @@ import com.gcu.model.User;
 @Controller
 public class RegistrationController {
 
+	public final int LOGIN_ATTEMPTS = 10;
+	
+	@Autowired
+	private HttpSession session;
+	
 	@RequestMapping(path="/login", method=RequestMethod.GET)
 	public ModelAndView NavToLogin() {
 		return new ModelAndView("login", "user", new User());
@@ -23,6 +30,12 @@ public class RegistrationController {
 	
 	@RequestMapping(path="/loginUser", method=RequestMethod.POST)
 	public ModelAndView LoginUser(@Valid @ModelAttribute("user") User user, BindingResult result, ModelMap model) {
+		
+		if(session.getAttribute("lockedOut") != null && (boolean)session.getAttribute("lockedOut"))
+		{
+			session.setAttribute("msg", "You have made too many attempts and are now locked out!");
+			return new ModelAndView("login", "user", user);
+		}
 		
 		boolean ignoreErrors = true;
 		
@@ -37,12 +50,49 @@ public class RegistrationController {
 		}
 		
 		if(!ignoreErrors) {
+			if(session.getAttribute("loginAttempts") == null)
+			{
+				session.setAttribute("lockedOut", false);
+				session.setAttribute("loginAttempts", 1);
+			}
+			else {
+				int attempts = (int)session.getAttribute("loginAttempts");
+				if(attempts >= LOGIN_ATTEMPTS - 1) {
+					session.setAttribute("lockedOut", true);
+					session.setAttribute("msg", "You have made too many attempts and are now locked out!");
+				}
+				else {
+					attempts++;
+					session.setAttribute("loginAttempts", attempts);
+					if(attempts > 6) {
+						String message = String.format("You have %d attempts left!", LOGIN_ATTEMPTS - attempts);
+						session.setAttribute("msg", message);
+					}
+				}
+			}
 			return new ModelAndView("login", "user", user);
 		}
 		else
 		{
-			return new ModelAndView("index", "user", user);
+			return new ModelAndView("loginSuccess", "user", user);
 		}
 	}
 	
+	@RequestMapping(path="/registerUser", method=RequestMethod.POST)
+	public ModelAndView RegisterUser(@Valid @ModelAttribute("user") User user, BindingResult result, ModelMap model) {
+	
+		if(result.hasErrors()) {
+			return new ModelAndView("register", "user", user);
+		}
+		else
+		{
+			return new ModelAndView("registerSuccess", "user", user);
+		}
+	}
+
+	@RequestMapping(path="/register", method=RequestMethod.GET)
+	public ModelAndView NavToRegistration()
+	{
+		return new ModelAndView("register", "user", new User());
+	}
 }

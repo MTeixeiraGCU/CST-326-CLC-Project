@@ -8,6 +8,12 @@
 	<h3 class="my-3">Login</h3>
 	<hr />
 	
+	<div class="col-sm-8">
+   		<div id="messageAlert">
+      		${msg}
+    	</div>
+    </div>
+	
 	<form:form method="POST" action="loginUser" modelAttribute ="user">		    
 			
 		<!-- Binding for server-side form errors -->
@@ -39,17 +45,9 @@
 	       		</div>
 	       	 </div> 
 		</div>
-			    
-	    <div class="form-group row">
-	     	<div class="col-sm-4">
-	    		<div class="invalid-feedback">
-        			${msg}
-       			</div>
-        	</div>
-        </div>
 
 		<div class="form-group row">
-			<div class="col-sm-6 offset-sm-2">
+			<div class="col-sm-12">
         		<input class="btn btn-primary" id="sub" type="submit" value="Submit"/>
         	</div>
         </div>
@@ -61,6 +59,13 @@
 <script>
 $(document).ready(function(){
 	  
+	  if(${lockedOut}){
+		  $("#messageAlert").addClass("alert alert-danger");
+	  }
+	  else if(${loginAttempts} > 6){
+		  $("#messageAlert").addClass("alert alert-warning");
+	  }
+	
 	  $("input#sub").mouseover(function(){
 		  $(this).stop();
 		  $(this).animate({"font-size": "18px"}, 250);

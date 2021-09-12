@@ -1,5 +1,6 @@
 package com.gcu.model;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
@@ -15,6 +16,8 @@ public class User {
 	@Pattern(regexp=".*[0-9].*", message="Password must contain at least one number, one letter, and a symbol!")
 	private String password;
 	
+	private String confirmPassword;
+	
 	@NotNull(message="You must enter a value for the first name!")
 	@Size(min=2, max=25, message="First name must be be at least 2 letters but less than 26!")
 	private String firstName;
@@ -23,6 +26,7 @@ public class User {
 	@Size(min=2, max=25, message="Last name must be be at least 2 letters but less than 26!")
 	private String lastName;
 	
+	@Valid
 	private Address address;
 	
 	public User() {
@@ -35,6 +39,13 @@ public class User {
 	}
 
 	//getters and setters
+	public String getConfirmPassword() {
+		return confirmPassword;
+	}
+	
+	public void setConfirmPassword(String confirmPassword) {
+		this.confirmPassword = confirmPassword;
+	}
 	public String getEmail() {
 		return email;
 	}

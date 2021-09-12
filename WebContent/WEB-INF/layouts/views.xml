@@ -12,9 +12,15 @@
     	<put-attribute name="body" value="/WEB-INF/pages/index.jsp" />
     </definition>
     <definition name="login" extends="Default">
-    	<put-attribute name="body" value="/WEB-INF/pages/login.jsp" />
+    	<put-attribute name="body" value="/WEB-INF/pages/login/login.jsp" />
     </definition>
-    <definition name="registration" extends="Default">
-    	<put-attribute name="body" value="/WEB-INF/pages/registration.jsp" />
+    <definition name="loginSuccess" extends="Default">
+    	<put-attribute name="body" value="/WEB-INF/pages/login/loginSuccess.jsp" />
+    </definition>
+    <definition name="register" extends="Default">
+    	<put-attribute name="body" value="/WEB-INF/pages/login/registration.jsp" />
+    </definition>
+    <definition name="registerSuccess" extends="Default">
+    	<put-attribute name="body" value="/WEB-INF/pages/login/registerSuccess.jsp" />
     </definition>
 </tiles-definitions>

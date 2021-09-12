@@ -2,6 +2,10 @@
 
 <nav class="navbar navbar-expand-md navbar-light bg-light">
 
+	<a href="/CLCProject/" class="navbar-brand">
+		<img src="resources/img/download.png"  height="28" alt="Logo">
+	</a>
+
 	<button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
     	<span class="navbar-toggler-icon"></span>
     </button>
