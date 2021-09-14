@@ -3,8 +3,11 @@
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 	
-	<img src="resources/img/logo.jpg" class="img-fluid" alt="Banner Logo">
-	<h2 class="text-center my-3">Michelle's Store</h2>
+	<div class="row">
+		<img src="resources/img/logo.jpg" class="col-sm-4 img-responsive" alt="Banner Logo">
+		<h2 class="col-sm-4 text-center my-3">Michelle's Store</h2>
+	</div>
+	
 	
 	<div class="container mt-3">
 
