@@ -45,6 +45,9 @@
 	         <form:label id="password" path="password" class="col-sm-2 col-form-label">Password: </form:label>
 	         <div class="col-sm-8">
 	         	<form:password id="password" path="password" class="form-control ${not empty passwordHasBindError?'is-invalid':''}"/>
+	         	<small id="passwordHelpBlock" class="form-text text-muted">
+  					Your password must be 6-18 characters long, contain at least one letter, one number, one symbol, and must not contain spaces.
+				</small>
 	         	<div class="invalid-feedback">
 	        		${passwordHasBindError}
 	       		</div>
