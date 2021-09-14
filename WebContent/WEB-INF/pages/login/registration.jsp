@@ -104,7 +104,7 @@
 		</div>
 
 		<div class="form-group row">
-			<div class="col-sm-6 offset-sm-2">
+			<div class="col-sm-12">
         		<input class="btn btn-primary" id="sub" type="submit" value="Submit"/>
         	</div>
         </div>
