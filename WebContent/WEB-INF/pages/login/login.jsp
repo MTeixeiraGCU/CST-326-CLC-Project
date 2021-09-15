@@ -61,11 +61,19 @@ $(document).ready(function(){
 	  
 	  if(${lockedOut}){
 		  $("#messageAlert").addClass("alert alert-danger");
+		  disableInputField($("input#sub"));
+		  disableInputField($("input#email"));
+		  disableInputField($("input#password"));
+		  addToHomeButton();
 	  }
 	  else if(${loginAttempts} > 6){
 		  $("#messageAlert").addClass("alert alert-warning");
 	  }
 	
+	  $("input#home").click(function(){
+		  window.location.href = "/CLCProject/";
+	  });
+	  
 	  $("input#sub").mouseover(function(){
 		  $(this).stop();
 		  $(this).animate({"font-size": "18px"}, 250);
@@ -76,4 +84,15 @@ $(document).ready(function(){
 		  $(this).animate({"font-size": "16px"}, 250);
 	  });
 });
+
+function addToHomeButton(){
+	$("input#sub").addClass("m-1");
+	$("input#sub").after("<input class='m-1 btn btn-primary' id='home' type='button' value='Home'/>");
+}
+
+function disableInputField(inputField){
+	inputField.addClass("disabled");
+	inputField.attr("disabled", "true");
+}
+
 </script>
