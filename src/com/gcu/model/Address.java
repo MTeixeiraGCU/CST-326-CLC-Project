@@ -6,9 +6,9 @@ import javax.validation.constraints.Pattern;
 public class Address {
 	
 	@NotNull(message="You must provide a default address")
-	private String addressOne;
+	String addressOne;
 	
-	private String addressTwo;
+	String addressTwo;
 	
 	@Pattern(regexp="\\(\\d{3}\\)\\d{3}-\\d{4}",message="Phone number must be in the format (XXX)XXX-XXXX")
 	private String phoneNumber;

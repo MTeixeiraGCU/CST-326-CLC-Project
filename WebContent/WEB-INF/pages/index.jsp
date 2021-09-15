@@ -1,85 +1,65 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
-<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-	
-	<div class="row">
-		<img src="resources/img/logo.jpg" class="col-sm-4 img-responsive" alt="Banner Logo">
-		<h2 class="col-sm-4 text-center my-3">Michelle's Store</h2>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
+
+<div class="row">
+	<img src="resources/img/logo.jpg" class="col-sm-4 img-responsive" alt="Banner Logo">
+	<h2 class="col-sm-4 text-center my-3">Michelle's Store</h2>
+</div>
+
+<div class="container mt-3">
+
+	<!-- Each type of clothing should get its own carousel -->
+	<div id="myCarousel" class="carousel slide" data-ride="carousel">
+
+		<div class="carousel-inner">
+
+			
+			<div class="carousel-item active">
+			
+				<!-- Loop here for each product of this type every three needs to create a new card-group-->
+				<div class="card-group">
+				
+			<c:forEach var="product" items="${models.products}" varStatus="counter">
+				<c:if test="${counter.index % 3 == 0}">
+					<c:if test="${counter.index > 0}">
+						<c:out value="</div>" escapeXml="false"/>
+						<c:out value="</div>" escapeXml="false"/>
+						<c:out value="<div class='carousel-item'>" escapeXml="false"/>
+						<c:out value="<div class='card-group'>" escapeXml="false"/>
+					</c:if>
+				</c:if>
+				
+					<div class="card">
+						<img class="card-img-top" src="..." alt="Card image cap">
+						<div class="card-body">
+							<h5 class="card-title">${product.name}</h5>
+							<p class="card-text">This is a wider card with supporting
+								text below as a natural lead-in to additional content. This
+								content is a little bit longer.</p>
+						</div>
+						<div class="card-footer">
+							<small class="text-muted">Last updated 3 mins ago</small>
+						</div>
+					</div>
+					
+			</c:forEach>
+			
+				</div>
+			</div>
+
+			<!-- Left and right controls -->
+			<a class="carousel-control-prev" href="#myCarousel" role="button" data-slide="prev">
+				<span class="carousel-control-prev-icon bg-dark border border-dark rounded-circle" aria-hidden="true"  style="left: 0; position: absolute;"></span>
+				<span class="sr-only">Previous</span>
+			</a> 
+			<a class="carousel-control-next" href="#myCarousel" role="button" data-slide="next">
+				<span class="carousel-control-next-icon bg-dark border border-dark rounded-circle" aria-hidden="true" style="right: 0; position: absolute;" ></span>
+				<span class="sr-only">Next</span>
+			</a>
+			
+		</div>
 	</div>
-	
-	
-	<div class="container mt-3">
-
-     	<!-- Table at the top of the page -->
-     	<table class="table table-dark">
-     		<thead>
-     			<tr>
-     				<th>First Name</th>
-     				<th>Last Name</th>
-     			</tr>
-     		</thead>
-     		<tbody>
-     			<tr>
-     				<td>Marc</td>
-     				<td>Teixeira</td>
-     			</tr>
-     			<tr>
-     				<td>Michelle</td>
-     				<td>Teixeira</td>
-     			</tr>
-     			<tr>
-     				<td>Drake</td>
-     				<td>Teixeira</td>
-     			</tr>
-     			<tr>
-     				<td>Teddie</td>
-     				<td>Teixeira</td>
-     			</tr>
-     			
-     			<tr>
-     				<td>${user.firstName}</td>
-     				<td>${user.lastName}</td>
-     			</tr>
-     		</tbody>
-     	</table>
-
-       	<!-- Form to access users name and gender -->	
-       	<h3 class="text-center my-3">Add yourself to the list</h3>
-       	
-       	<form:form method="POST" action="add" modelAttribute="user">
-       	
-       		<div class="form-group row">
-       			<form:label path="firstName" class="col-sm-2 col-form-label">First Name</form:label>
-       			<div class="col-sm-10">
-       				<form:input path="firstName" type="text" class="form-control" placeholder="First"/>
-       			</div>
-       		</div>
-       		
-       		<div class="form-group row">
-       			<form:label path="lastName" class="col-sm-2 col-form-label">Last Name</form:label>
-       			<div class="col-sm-10">
-       				<form:input type="text" class="form-control" path="lastName" placeholder="Last"/>
-       			</div>
-       		</div>
-       		
-<!--         		<div class="form-group row"> -->
-<%--         			<form:label path="gender" class="col-sm-2 col-form-label">Gender</form:label> --%>
-<!--         			<div class="col-sm-2"> -->
-<!--         				<select id="gender" class="form-control"> -->
-<!--         					<option>Male</option> -->
-<!--         					<option>Female</option> -->
-<!--         					<option>Other</option> -->
-<!--         				</select> -->
-<!--         			</div> -->
-<!--         		</div> -->
-       			
-       		<div class="form-group row">	
-       			<div class="col-sm-10 offset-sm-2">
-       				<button type="submit" class="btn btn-primary">Confirm </button>
-       			</div>	
-       		</div>
-       		
-       	</form:form>
-        
-    </div>
+</div>

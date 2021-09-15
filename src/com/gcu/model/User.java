@@ -13,27 +13,27 @@ public class User {
 				  + "a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\\"
 				  + ".){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-"
 				  + "\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])", message="Must be a valid email!")
-	private String email;
+	String email;
 	
 	@NotNull(message="Please enter a password!")
 	@Size(min=6, max=18, message="Password must be 6 or more characters and less than 18!")
 	@Pattern(regexp="(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&]).{6,18}$", 
 	         message="Password must contain at least one number, one letter, and a symbol!")
 	
-	private String password;
+	String password;
 	
-	private String confirmPassword;
+	String confirmPassword;
 	
 	@NotNull(message="You must enter a value for the first name!")
 	@Size(min=2, max=25, message="First name must be be at least 2 letters but less than 26!")
-	private String firstName;
+	String firstName;
 	
 	@NotNull(message="You must enter a value for the last name!")
 	@Size(min=2, max=25, message="Last name must be be at least 2 letters but less than 26!")
-	private String lastName;
+	String lastName;
 	
 	@Valid
-	private Address address;
+	Address address;
 	
 	public User() {
 		email = "";
