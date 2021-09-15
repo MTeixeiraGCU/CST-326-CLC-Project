@@ -21,10 +21,10 @@
 			
 				<!-- Loop here for each product of this type every three needs to create a new card-group-->
 				<div class="card-group">
-				
-			<c:forEach var="product" items="${models.products}" varStatus="counter">
-				<c:if test="${counter.index % 3 == 0}">
-					<c:if test="${counter.index > 0}">
+			<c:set var="counter" value="0" scope="page"/>	
+			<c:forEach var="product" items="${models.products}">
+				<c:if test="${counter % 3 == 0}">
+					<c:if test="${counter > 0}">
 						<c:out value="</div>" escapeXml="false"/>
 						<c:out value="</div>" escapeXml="false"/>
 						<c:out value="<div class='carousel-item'>" escapeXml="false"/>
@@ -45,8 +45,17 @@
 						</div>
 					</div>
 					
+					<c:set var="counter" value="${counter + 1}" scope="page"/>
 			</c:forEach>
 			
+			<c:set var="leftOvers" value="${counter % 3}" />
+			<c:if test="${leftOvers != 0}">
+			<c:forEach var="count" begin="0" end="${(3 - leftOvers) - 1}">
+					<div class="card">
+					</div>
+			</c:forEach>
+			</c:if>
+				
 				</div>
 			</div>
 
