@@ -23,4 +23,7 @@
     <definition name="registerSuccess" extends="Default">
     	<put-attribute name="body" value="/WEB-INF/pages/login/registerSuccess.jsp" />
     </definition>
+    <definition name="inventory" extends="Default">
+    	<put-attribute name="body" value="/WEB-INF/pages/admin/inventory.jsp" />
+    </definition>
 </tiles-definitions>
