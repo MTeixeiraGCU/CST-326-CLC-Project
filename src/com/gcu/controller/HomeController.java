@@ -9,6 +9,7 @@ import java.util.Map;
 import javax.validation.Valid;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -32,20 +33,24 @@ public class HomeController {
 	}
 	
 	@RequestMapping(path= {"/inventory"}, method=RequestMethod.GET)
-	public ModelAndView NavInventoryPage() {
-		return new ModelAndView("inventory", "products", GetMockList());
+	public ModelAndView NavInventoryPage(ModelMap model) {
+		model.addAttribute("products", GetMockList());
+		model.addAttribute("newProduct", new Product());
+		return new ModelAndView("inventory", "model", model);
 	}
 	
-	@RequestMapping(path="/addproduct", method=RequestMethod.POST)
-	public ModelAndView AddNewProduct(@Valid @ModelAttribute("product") Product product, BindingResult result, ModelMap model) {
-	
+	@RequestMapping(path="/addProduct", method=RequestMethod.POST)
+	public ModelAndView AddNewProduct(@Valid @ModelAttribute("newProduct") Product product, BindingResult result, ModelMap model) {
 		if(result.hasErrors()) {
-			return new ModelAndView("inventory", "product", product);
+			model.addAttribute("msg", "Could not add product!");			
 		}
 		else
 		{
-			return new ModelAndView("inventory", "product", product);
+			model.addAttribute("msg", "Product was added!");
 		}
+		
+		model.addAttribute("products", GetMockList());
+		return new ModelAndView("inventory", "model", model);
 	}
 	
 	private List<Product> GetMockList()
@@ -56,7 +61,7 @@ public class HomeController {
 		{
 			Product p = new Product();
 			p.setName("Shirt " + i);
-			p.setCost(new BigDecimal("0.00" + i));
+			p.setCost(new BigDecimal(i + ".00"));
 			products.add(p);
 		}
 

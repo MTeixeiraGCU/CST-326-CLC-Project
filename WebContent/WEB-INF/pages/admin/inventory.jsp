@@ -6,6 +6,7 @@
 <div class="container mt-3">
 
 	<h3 class="my-3">Inventory</h3>
+	<p>${msg}</p>
 	<hr />
 	<div class="row">
 	
@@ -13,7 +14,7 @@
 		<div class="panel-body">
 			<ul class="list-group" id="productList">
 				<c:forEach var="product" items="${products}">
-					<li class="list-group-item">${product.name}</li>
+					<li class="list-group-item">${product.name} Cost: ${product.cost}</li>
 				</c:forEach>
 			
 			</ul>
@@ -21,7 +22,24 @@
 		</div>
 		
 		<div class="col-sm-6">
-			<form:form method="POST" action="addProduct" modelAttribute ="user">		    
+			<form:form method="POST" action="addProduct" modelAttribute ="newProduct">		    
+				
+				<!-- Binding for server-side form errors -->
+				<c:set var="nameHasBindError">
+					<form:errors path="name" />
+				</c:set>
+				
+				<!-- Form fields -->
+				<div class="form-group row">
+			    	<form:label id="name" path="name" class="col-sm-2 col-form-label">Name: </form:label>
+			    	<div class="col-sm-8"> 
+			        	<form:input id="name" path="name" class="form-control ${not empty nameHasBindError?'is-invalid':''}"/>
+			        	<div class="invalid-feedback">
+			        		${nameHasBindError}
+			       		</div>
+			       	</div>
+				</div>
+		
 		
 				<div class="form-group row">
 					<div class="col-sm-12">
