@@ -3,6 +3,7 @@ package com.gcu.controller;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,9 @@ import com.gcu.model.User;
 public class HomeController {
 
 	@Autowired
+	private HttpSession session;
+	
+	@Autowired
 	private ProductBusinessInterface pbs;
 	
 	@RequestMapping(path= {"", "/", "/index", "/home"}, method=RequestMethod.GET)
@@ -35,6 +39,9 @@ public class HomeController {
 	
 	@RequestMapping(path= {"/inventory"}, method=RequestMethod.GET)
 	public ModelAndView NavInventoryPage(ModelMap model) {
+		if(session.getAttribute("admin") == null || !(boolean)session.getAttribute("admin"))
+			return NavToHomePage();
+		
 		model.addAttribute("products", pbs.GetProducts());
 		model.addAttribute("newProduct", new Product());
 		return new ModelAndView("inventory", "model", model);

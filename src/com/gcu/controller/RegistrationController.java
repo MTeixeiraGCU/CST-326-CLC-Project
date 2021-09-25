@@ -39,45 +39,32 @@ public class RegistrationController {
 			return new ModelAndView("login", "user", user);
 		}
 		
-		boolean ignoreErrors = true;
-		
-		List<FieldError> errors = result.getFieldErrors();
-		for(FieldError error : errors)
+		if(session.getAttribute("loginAttempts") == null)
 		{
-			if(error.getField().equals("email") | error.getField().equals("password"))
-			{
-				ignoreErrors = false;
-				break;
-			}
+			session.setAttribute("lockedOut", false);
+			session.setAttribute("loginAttempts", 1);
 		}
-		
-		if(!ignoreErrors) {
-			if(session.getAttribute("loginAttempts") == null)
-			{
-				session.setAttribute("lockedOut", false);
-				session.setAttribute("loginAttempts", 1);
+		else {
+			int attempts = (int)session.getAttribute("loginAttempts");
+			if(attempts >= UserBusinessInterface.LOCKOUT_COUNT - 1) {
+				session.setAttribute("lockedOut", true);
+				session.setAttribute("msg", "You have made too many attempts and are now locked out!");
 			}
 			else {
-				int attempts = (int)session.getAttribute("loginAttempts");
-				if(attempts >= UserBusinessInterface.LOCKOUT_COUNT - 1) {
-					session.setAttribute("lockedOut", true);
-					session.setAttribute("msg", "You have made too many attempts and are now locked out!");
+				attempts++;
+				session.setAttribute("loginAttempts", attempts);
+				if(attempts > 6) {
+					String message = String.format("You have %d attempts left!", UserBusinessInterface.LOCKOUT_COUNT - attempts);
+					session.setAttribute("msg", message);
 				}
-				else {
-					attempts++;
-					session.setAttribute("loginAttempts", attempts);
-					if(attempts > 6) {
-						String message = String.format("You have %d attempts left!", UserBusinessInterface.LOCKOUT_COUNT - attempts);
-						session.setAttribute("msg", message);
-					}
+				if(ubs.ValidateCredintials(user)) {
+					session.setAttribute("userEmail", user.getEmail());
+					session.setAttribute("admin", ubs.IsAdmin(user.getEmail()));
+					return new ModelAndView("loginSuccess", "user", user);
 				}
 			}
-			return new ModelAndView("login", "user", user);
 		}
-		else
-		{
-			return new ModelAndView("loginSuccess", "user", user);
-		}
+		return new ModelAndView("login", "user", user);
 	}
 	
 	@RequestMapping(path="/registerUser", method=RequestMethod.POST)

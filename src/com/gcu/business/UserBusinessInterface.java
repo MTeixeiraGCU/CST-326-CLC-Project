@@ -9,4 +9,5 @@ public interface UserBusinessInterface {
 	public boolean ValidateCredintials(User user);
 	public boolean RegisterUser(User user);
 	public boolean CheckUniqueEmail(String email);
+	public boolean IsAdmin(String email);
 }

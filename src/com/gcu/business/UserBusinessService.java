@@ -13,6 +13,11 @@ public class UserBusinessService implements UserBusinessInterface{
 	}
 	
 	@Override
+	public boolean IsAdmin(String email) {
+		return true;
+	}
+	
+	@Override
 	public boolean RegisterUser(User user) {
 		return true;
 	}
