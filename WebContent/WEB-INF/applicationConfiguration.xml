@@ -30,5 +30,13 @@
 			</list>
 		</property>
 	</bean>
+	
+	<!-- Spring Bean setups -->
+    <bean id="ubs" class="com.gcu.business.UserBusinessService" scope="session">
+    	<aop:scoped-proxy proxy-target-class="false" />
+    </bean>
+    <bean id="pbs" class="com.gcu.business.ProductBusinessService" scope="session">
+    	<aop:scoped-proxy proxy-target-class="false" />
+    </bean>
     
 </beans>

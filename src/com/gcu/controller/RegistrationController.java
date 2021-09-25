@@ -13,15 +13,17 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.gcu.business.UserBusinessInterface;
 import com.gcu.model.User;
 
 @Controller
 public class RegistrationController {
 
-	public final int LOGIN_ATTEMPTS = 10;
-	
 	@Autowired
 	private HttpSession session;
+	
+	@Autowired
+	private UserBusinessInterface ubs;
 	
 	@RequestMapping(path="/login", method=RequestMethod.GET)
 	public ModelAndView NavToLogin() {
@@ -57,7 +59,7 @@ public class RegistrationController {
 			}
 			else {
 				int attempts = (int)session.getAttribute("loginAttempts");
-				if(attempts >= LOGIN_ATTEMPTS - 1) {
+				if(attempts >= UserBusinessInterface.LOCKOUT_COUNT - 1) {
 					session.setAttribute("lockedOut", true);
 					session.setAttribute("msg", "You have made too many attempts and are now locked out!");
 				}
@@ -65,7 +67,7 @@ public class RegistrationController {
 					attempts++;
 					session.setAttribute("loginAttempts", attempts);
 					if(attempts > 6) {
-						String message = String.format("You have %d attempts left!", LOGIN_ATTEMPTS - attempts);
+						String message = String.format("You have %d attempts left!", UserBusinessInterface.LOCKOUT_COUNT - attempts);
 						session.setAttribute("msg", message);
 					}
 				}
