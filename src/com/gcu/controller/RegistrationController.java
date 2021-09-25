@@ -1,7 +1,5 @@
 package com.gcu.controller;
 
-import java.util.List;
-
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
@@ -9,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -33,37 +30,17 @@ public class RegistrationController {
 	@RequestMapping(path="/loginUser", method=RequestMethod.POST)
 	public ModelAndView LoginUser(@Valid @ModelAttribute("user") User user, BindingResult result, ModelMap model) {
 		
-		if(session.getAttribute("lockedOut") != null && (boolean)session.getAttribute("lockedOut"))
-		{
-			session.setAttribute("msg", "You have made too many attempts and are now locked out!");
+		if(CheckLockoutStatus()) {
 			return new ModelAndView("login", "user", user);
 		}
 		
-		if(session.getAttribute("loginAttempts") == null)
-		{
-			session.setAttribute("lockedOut", false);
-			session.setAttribute("loginAttempts", 1);
+		if(ubs.ValidateCredintials(user)) {
+			session.setAttribute("userEmail", user.getEmail());
+			session.setAttribute("admin", ubs.IsAdmin(user.getEmail()));
+			return new ModelAndView("loginSuccess", "user", user);
 		}
-		else {
-			int attempts = (int)session.getAttribute("loginAttempts");
-			if(attempts >= UserBusinessInterface.LOCKOUT_COUNT - 1) {
-				session.setAttribute("lockedOut", true);
-				session.setAttribute("msg", "You have made too many attempts and are now locked out!");
-			}
-			else {
-				attempts++;
-				session.setAttribute("loginAttempts", attempts);
-				if(attempts > 6) {
-					String message = String.format("You have %d attempts left!", UserBusinessInterface.LOCKOUT_COUNT - attempts);
-					session.setAttribute("msg", message);
-				}
-				if(ubs.ValidateCredintials(user)) {
-					session.setAttribute("userEmail", user.getEmail());
-					session.setAttribute("admin", ubs.IsAdmin(user.getEmail()));
-					return new ModelAndView("loginSuccess", "user", user);
-				}
-			}
-		}
+		
+		session.setAttribute("msg", "Invalid credintials" + (session.getAttribute("msg") == null?"!":", " + session.getAttribute("msg")));
 		return new ModelAndView("login", "user", user);
 	}
 	
@@ -83,5 +60,37 @@ public class RegistrationController {
 	public ModelAndView NavToRegistration()
 	{
 		return new ModelAndView("register", "user", new User());
+	}
+	
+	private boolean CheckLockoutStatus() {
+		if(session.getAttribute("lockedOut") != null && (boolean)session.getAttribute("lockedOut"))
+		{
+			session.setAttribute("msg", "You have made too many attempts and are now locked out!");
+			return true;
+		}
+		
+		if(session.getAttribute("loginAttempts") == null)
+		{
+			session.setAttribute("lockedOut", false);
+			session.setAttribute("loginAttempts", 1);
+			return false;
+		}
+		else {
+			int attempts = (int)session.getAttribute("loginAttempts");
+			attempts++;
+			if(attempts > UserBusinessInterface.LOCKOUT_COUNT) {
+				session.setAttribute("lockedOut", true);
+				session.setAttribute("msg", "You have made too many attempts and are now locked out!");
+				return true;
+			}
+			else {
+				session.setAttribute("loginAttempts", (int)session.getAttribute("loginAttempts") + attempts);
+				if(attempts > 6) {
+					String message = String.format("You have %d attempts left!", UserBusinessInterface.LOCKOUT_COUNT - attempts);
+					session.setAttribute("msg", message);
+				}
+				return false;
+			}
+		}
 	}
 }

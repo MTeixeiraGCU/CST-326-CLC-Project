@@ -6,7 +6,7 @@ public class UserBusinessService implements UserBusinessInterface{
 
 	@Override
 	public boolean ValidateCredintials(User user) {
-		if(user.getEmail() == "yo@yo.yo" && user.getPassword() == "123QWE!@#") {
+		if(user.getEmail().equals("yo@yo.yo") && user.getPassword().equals("123QWE!@#")) {
 			return true;
 		}
 		return false;
