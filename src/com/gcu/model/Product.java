@@ -1,14 +1,17 @@
 package com.gcu.model;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Product {
 	
+	String image;
+	
 	String name;
 
-	BigDecimal cost;
+	int costDollars;
+	
+	int costCents;
 	
 	String description;
 	
@@ -16,13 +19,36 @@ public class Product {
 	
 	public Product()
 	{
+		image = "";
 		name = "";
-		cost = new BigDecimal("0.00");
+		costDollars = 0;
+		costCents = 0;
 		description = "";
 		tags = new ArrayList<Tag>();
 	}
 	
+	public String getCost() {
+		double cost = costDollars + (costCents * 0.01);
+		return String.format("%,.2f", cost);
+	}
+	
+	public void setCost(String cost)
+	{
+		double amount = Double.parseDouble(cost);
+		this.costDollars = (int)amount / 1;
+		this.costCents = (int)((amount % 1.0) * 100);
+		System.out.println("$" + costDollars + "." + costCents);
+	}
+	
 	//getters and setters
+	public String getImage() {
+		return image;
+	}
+	
+	public void setImage(String image) {
+		this.image = image;
+	}
+	
 	public List<Tag> getTags() {
 		return tags;
 	}
@@ -39,14 +65,22 @@ public class Product {
 		this.name = name;
 	}
 	
-	public BigDecimal getCost() {
-		return cost;
+	public int getCostDollars() {
+		return costDollars;
 	}
-	
-	public void setCost(BigDecimal cost) {
-		this.cost = cost;
+
+	public void setCostDollars(int costDollars) {
+		this.costDollars = costDollars;
 	}
-	
+
+	public int getCostCents() {
+		return costCents;
+	}
+
+	public void setCostCents(int costCents) {
+		this.costCents = costCents;
+	}
+
 	public String getDescription() {
 		return description;
 	}

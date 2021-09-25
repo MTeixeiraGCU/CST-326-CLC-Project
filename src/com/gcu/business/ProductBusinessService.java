@@ -1,6 +1,5 @@
 package com.gcu.business;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,7 +30,9 @@ public class ProductBusinessService implements ProductBusinessInterface{
 		{
 			Product p = new Product();
 			p.setName("Shirt " + i);
-			p.setCost(new BigDecimal(i + ".00"));
+			String dollars = Integer.toString((i + 1) * 3);
+			String cents = Integer.toString(((i + 1) * 4) % 100);
+			p.setCost(dollars + "." + cents);
 			products.add(p);
 		}
 	}
