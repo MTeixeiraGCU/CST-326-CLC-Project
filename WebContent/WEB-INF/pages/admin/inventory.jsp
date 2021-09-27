@@ -15,7 +15,7 @@
 				<div class="panel-body">
 					<ul class="list-group" id="productList">
 						<c:forEach var="product" items="${products}">
-							<li class="list-group-item">${product.name} Cost: ${product.cost}</li>
+							<li class="list-group-item" id="${product.id}">${product.name} Cost: ${product.cost}</li>
 						</c:forEach>
 					</ul>
 				</div>
@@ -116,12 +116,26 @@ $(document).ready(function(){
 	$('#inventoryPanel').css("max-height", "500px")
 	$('#inventoryPanel').css("margin-bottom", "10px")
 	$('#inventoryPanel').css("overflow", "scroll")
+	disableRemoveButton();
 })
 
 $('#productList li').on('click', function() {
 	$('#productList li').removeClass("active");
 	$(this).css("background-color", "");
 	$(this).addClass("active");
+	$('#removeProduct').removeClass("disabled");
+	$('#removeProduct').removeAttr("disabled");
+})
+
+$('#removeProduct').on('click', function() {
+	var ID = $('#productList li.active').attr('id');
+	$.get("removeProduct", { id: ID }, 
+		function(data, status) {
+			if(status) {
+				disableListItem($('#productList li.active'));
+			}
+			alert(data);
+		});
 })
 
 $('#productList li').mouseover( function() {
@@ -135,5 +149,17 @@ $('#productList li').mouseout( function() {
 		$(this).css("background-color", "");
 	}
 })
+
+function disableListItem(productItem) {
+	productItem.removeClass("active");
+	productItem.addClass("disabled bg-danger");
+	productItem.attr("disabled", "true");
+	disableRemoveButton();
+}
+
+function disableRemoveButton() {
+	$('#removeProduct').addClass("disabled");
+	$('#removeProduct').attr("disabled", "true");
+}
 
 </script>

@@ -8,4 +8,5 @@ public interface ProductBusinessInterface {
 	
 	public boolean AddNewProduct(Product product);
 	public List<Product> GetProducts();
+	public boolean RemoveProduct(int productID);
 }

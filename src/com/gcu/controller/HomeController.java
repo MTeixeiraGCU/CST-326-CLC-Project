@@ -7,12 +7,16 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.gcu.business.ProductBusinessInterface;
@@ -38,13 +42,29 @@ public class HomeController {
 	}
 	
 	@RequestMapping(path= {"/inventory"}, method=RequestMethod.GET)
-	public ModelAndView NavInventoryPage(ModelMap model) {
+	public ModelAndView NavToInventoryPage(ModelMap model) {
 		if(session.getAttribute("admin") == null || !(boolean)session.getAttribute("admin"))
 			return NavToHomePage();
 		
 		model.addAttribute("products", pbs.GetProducts());
 		model.addAttribute("newProduct", new Product());
 		return new ModelAndView("inventory", "model", model);
+	}
+	
+	@RequestMapping(path="/removeProduct", method=RequestMethod.GET)
+	@ResponseBody
+	public ResponseEntity<String> RemoveProduct(@RequestParam String id) {
+		try {
+			int productID = Integer.parseInt(id);
+			if(pbs.RemoveProduct(productID)) {
+				return new ResponseEntity<String>("Successfully removed product", HttpStatus.ACCEPTED);
+			}
+			else
+				return new ResponseEntity<String>("Could not remove product. Are you sure it exists?", HttpStatus.BAD_REQUEST);
+		}
+		catch(Exception e) {
+			return new ResponseEntity<String>("Invalid ID was entered.", HttpStatus.BAD_REQUEST);
+		}
 	}
 	
 	@RequestMapping(path="/addProduct", method=RequestMethod.POST)

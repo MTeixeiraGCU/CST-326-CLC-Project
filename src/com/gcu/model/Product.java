@@ -5,6 +5,8 @@ import java.util.List;
 
 public class Product {
 	
+	int id;
+	
 	String image;
 	
 	String name;
@@ -19,6 +21,7 @@ public class Product {
 	
 	public Product()
 	{
+		id = -1;
 		image = "";
 		name = "";
 		costDollars = 0;
@@ -27,6 +30,7 @@ public class Product {
 		tags = new ArrayList<Tag>();
 	}
 	
+
 	public String getCost() {
 		double cost = costDollars + (costCents * 0.01);
 		return String.format("%,.2f", cost);
@@ -40,6 +44,14 @@ public class Product {
 	}
 	
 	//getters and setters
+	public int getId() {
+		return id;
+	}
+	
+	public void setId(int id) {
+		this.id = id;
+	}
+	
 	public String getImage() {
 		return image;
 	}
