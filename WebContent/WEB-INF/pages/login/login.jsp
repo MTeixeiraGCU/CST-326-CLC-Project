@@ -58,7 +58,7 @@
 
 <script>
 $(document).ready(function(){
-	  
+	
 	  if(${lockedOut}){
 		  $("#messageAlert").addClass("alert alert-danger");
 		  disableInputField($("input#sub"));

@@ -5,7 +5,7 @@
 	
 	<div class="container mt-3">
 
-		<h3 class="my-3">Login Successful</h3>
+		<h3 class="my-3">You have been logged out successfully.</h3>
 		<p class="text-center">Click <a href="">Here</a> to return to the main page.</p>
 		<hr />
 		

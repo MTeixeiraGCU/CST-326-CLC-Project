@@ -44,6 +44,16 @@ public class RegistrationController {
 		return new ModelAndView("login", "user", user);
 	}
 	
+	@RequestMapping(path= {"logout"}, method=RequestMethod.GET)
+	public String LogoutUser() {
+		
+		if(session.getAttribute("userEmail") != null)
+			session.removeAttribute("userEmail");
+		if(session.getAttribute("admin") != null)
+			session.removeAttribute("admin");
+		return "logoutSuccess";
+	}
+	
 	@RequestMapping(path="/registerUser", method=RequestMethod.POST)
 	public ModelAndView RegisterUser(@Valid @ModelAttribute("user") User user, BindingResult result, ModelMap model) {
 	

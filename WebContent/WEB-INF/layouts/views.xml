@@ -26,4 +26,7 @@
     <definition name="inventory" extends="Default">
     	<put-attribute name="body" value="/WEB-INF/pages/admin/inventory.jsp" />
     </definition>
+    <definition name="logoutSuccess" extends="Default">
+    	<put-attribute name="body" value="/WEB-INF/pages/login/logoutSuccess.jsp" />
+    </definition>
 </tiles-definitions>
