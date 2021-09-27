@@ -37,7 +37,6 @@ public class Product {
 		double amount = Double.parseDouble(cost);
 		this.costDollars = (int)amount / 1;
 		this.costCents = (int)((amount % 1.0) * 100);
-		System.out.println("$" + costDollars + "." + costCents);
 	}
 	
 	//getters and setters
