@@ -7,6 +7,8 @@ import javax.validation.constraints.Size;
 
 public class User {
 	
+	int id;
+	
 	@NotNull(message="You must provide an email for you login!")
 	@Pattern(regexp="(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\"
 				  + "x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[a-z0-9](?:[a-z0-9-]*["
@@ -32,22 +34,43 @@ public class User {
 	@Size(min=2, max=25, message="Last name must be be at least 2 letters but less than 26!")
 	String lastName;
 	
+	boolean isAdmin;
+	
 	@Valid
 	Address address;
 	
 	public User() {
+		id = -1;
 		email = "";
 		password = "";
 		firstName = "";
 		lastName = "";
 		address = new Address();
+		isAdmin = false;
 	}
 
 	//getters and setters
+	
 	public String getConfirmPassword() {
 		return confirmPassword;
 	}
 	
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public boolean isAdmin() {
+		return isAdmin;
+	}
+
+	public void setAdmin(boolean isAdmin) {
+		this.isAdmin = isAdmin;
+	}
+
 	public void setConfirmPassword(String confirmPassword) {
 		this.confirmPassword = confirmPassword;
 	}

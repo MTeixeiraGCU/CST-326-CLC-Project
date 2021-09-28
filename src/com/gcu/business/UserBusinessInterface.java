@@ -6,8 +6,8 @@ public interface UserBusinessInterface {
 	
 	public static final int LOCKOUT_COUNT = 10;
 	
-	public boolean ValidateCredintials(User user);
+	public boolean ValidateCredintials(String email, String Password);
 	public boolean RegisterUser(User user);
-	public boolean CheckUniqueEmail(String email);
-	public boolean IsAdmin(String email);
+	public boolean IsAdmin(int id);
+	public int GetIdFromEmail(String email);
 }

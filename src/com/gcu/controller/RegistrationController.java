@@ -29,17 +29,20 @@ public class RegistrationController {
 	
 	@RequestMapping(path="/loginUser", method=RequestMethod.POST)
 	public ModelAndView LoginUser(@Valid @ModelAttribute("user") User user, BindingResult result, ModelMap model) {
-		
+		session.removeAttribute("msg");
 		if(CheckLockoutStatus()) {
 			return new ModelAndView("login", "user", user);
 		}
-		
-		if(ubs.ValidateCredintials(user)) {
+		if(ubs.ValidateCredintials(user.getEmail(), user.getPassword())) {
+			user.setId(ubs.GetIdFromEmail(user.getEmail()));
+			session.removeAttribute("loginAttempts");
+			session.setAttribute("userId", user.getId());
 			session.setAttribute("userEmail", user.getEmail());
-			session.setAttribute("admin", ubs.IsAdmin(user.getEmail()));
+			session.setAttribute("admin", ubs.IsAdmin(user.getId()));
 			return new ModelAndView("loginSuccess", "user", user);
 		}
 		
+		user = new User();
 		session.setAttribute("msg", "Invalid credintials" + (session.getAttribute("msg") == null?"!":", " + session.getAttribute("msg")));
 		return new ModelAndView("login", "user", user);
 	}
@@ -47,6 +50,8 @@ public class RegistrationController {
 	@RequestMapping(path= {"logout"}, method=RequestMethod.GET)
 	public String LogoutUser() {
 		
+		if(session.getAttribute("userId") != null)
+			session.removeAttribute("userId");
 		if(session.getAttribute("userEmail") != null)
 			session.removeAttribute("userEmail");
 		if(session.getAttribute("admin") != null)
@@ -62,8 +67,10 @@ public class RegistrationController {
 		}
 		else
 		{
-			return new ModelAndView("registerSuccess", "user", user);
+			if(ubs.RegisterUser(user))
+				return new ModelAndView("registerSuccess", "user", user);
 		}
+		return new ModelAndView("register", "user", user);
 	}
 
 	@RequestMapping(path="/register", method=RequestMethod.GET)

@@ -7,7 +7,7 @@
 
 		<h3 class="my-3">Registration Successful</h3>
 		<p class="text-center">Thank you for signing up.</p>
-		<p class="text-center">Click <a href="">Here</a> to return to the main page.</p>
+		<p class="text-center">Click <a href="login">Here</a> to proceed to login.</p>
 		<hr />
 		
 	</div>

@@ -38,5 +38,11 @@
     <bean id="pbs" class="com.gcu.business.ProductBusinessService" scope="session">
     	<aop:scoped-proxy proxy-target-class="false" />
     </bean>
+    <bean id="pdao" class="com.gcu.data.ProductDataAccessObject" scope="session">
+    	<aop:scoped-proxy proxy-target-class="false" />
+    </bean>
+    <bean id="udao" class="com.gcu.data.UserDataAccessObject" scope="session">
+    	<aop:scoped-proxy proxy-target-class="false" />
+    </bean>
     
 </beans>
