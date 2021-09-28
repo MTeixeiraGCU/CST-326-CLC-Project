@@ -29,4 +29,7 @@
     <definition name="logoutSuccess" extends="Default">
     	<put-attribute name="body" value="/WEB-INF/pages/login/logoutSuccess.jsp" />
     </definition>
+    <definition name="salesMenu" extends="Default">
+    	<put-attribute name="body" value="/WEB-INF/pages/admin/salesMenu.jsp" />
+    </definition>
 </tiles-definitions>

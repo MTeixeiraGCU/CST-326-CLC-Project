@@ -44,5 +44,8 @@
     <bean id="udao" class="com.gcu.data.UserDataAccessObject" scope="session">
     	<aop:scoped-proxy proxy-target-class="false" />
     </bean>
+    <bean id="sdao" class="com.gcu.data.SaleDataAccessObject" scope="session">
+    	<aop:scoped-proxy proxy-target-class="false" />
+    </bean>
     
 </beans>

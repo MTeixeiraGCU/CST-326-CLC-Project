@@ -34,8 +34,11 @@
 				<c:set var="nameHasBindError">
 					<form:errors path="name" />
 				</c:set>
-				<c:set var="nameHasBindError">
-					<form:errors path="cost" />
+				<c:set var="costDollarsHasBindError">
+					<form:errors path="costDollars" />
+				</c:set>
+				<c:set var="costCentsHasBindError">
+					<form:errors path="costCents" />
 				</c:set>
 				
 				<!-- Form fields -->
@@ -117,6 +120,10 @@ $(document).ready(function(){
 	$('#inventoryPanel').css("margin-bottom", "10px")
 	$('#inventoryPanel').css("overflow", "scroll")
 	disableRemoveButton();
+})
+
+$('#saleMenu').on('click', function() {
+	window.location = "/CLCProject/salesMenu";
 })
 
 $('#productList li').on('click', function() {
