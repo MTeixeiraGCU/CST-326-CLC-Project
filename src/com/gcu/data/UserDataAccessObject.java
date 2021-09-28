@@ -20,7 +20,7 @@ public class UserDataAccessObject implements DataAccessObjectInterface<User> {
 			User u = new User();
 			u.setId(currentID);
 			u.setEmail("yo@yo.yo" + currentID);
-			u.setPassword("123QWE!@#" + currentID);
+			u.setPassword("123QWE!@#");
 			u.setAdmin(currentID % 2 == 0?false:true);
 			users.add(u);
 			currentID++;
