@@ -55,6 +55,9 @@ public class AdminController {
 	@RequestMapping(path="/removeProduct", method=RequestMethod.GET)
 	@ResponseBody
 	public ResponseEntity<String> RemoveProduct(@RequestParam String id) {
+		if(session.getAttribute("admin") == null || !(boolean)session.getAttribute("admin"))
+			return new ResponseEntity<String>("Could not remove product. Are you logged in as an Admin?", HttpStatus.BAD_REQUEST);
+
 		try {
 			int productID = Integer.parseInt(id);
 			if(pbs.RemoveProduct(productID)) {
