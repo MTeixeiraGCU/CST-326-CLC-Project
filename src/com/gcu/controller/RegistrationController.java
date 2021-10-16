@@ -67,6 +67,10 @@ public class RegistrationController {
 		}
 		else
 		{
+			if(ubs.GetIdFromEmail(user.getEmail()) != -1) { //email is being used already
+				session.setAttribute("msg", "That email is being used by another user already!");
+				return new ModelAndView("register", "user", user);
+			}
 			if(ubs.RegisterUser(user))
 				return new ModelAndView("registerSuccess", "user", user);
 		}
